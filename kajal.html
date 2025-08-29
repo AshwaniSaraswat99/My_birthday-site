@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday My Love ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    h1 {
+      color: white;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    /* Page 1 */
+    #page1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .carousel {
+      position: relative;
+      width: 300px;
+      height: 260px;
+      perspective: 1000px;
+    }
+
+    .carousel__photo {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 5px solid #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.8s ease, opacity 0.8s ease;
+      opacity: 0.6;
+    }
+
+    .carousel__photo.active {
+      opacity: 1;
+      transform: scale(1.1);
+      z-index: 5;
+    }
+
+    .controls {
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 6px;
+      border: none;
+      border-radius: 25px;
+      background: #ff4d6d;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .music-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 18px;
+      background: #fff;
+      color: #ff4d6d;
+    }
+
+    /* Page 2 */
+    #page2 {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .circle-btn {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: #ff4d6d;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+      margin-top: 20px;
+    }
+
+    .circle-photos {
+      position: relative;
+      width: 350px;
+      height: 350px;
+      margin: 20px auto;
+    }
+
+    .circle-photos img {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 20px;
+      border: 4px solid #fff;
+      object-fit: cover;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: transform 1s ease, opacity 1s ease;
+    }
+
+    .message {
+      font-size: 20px;
+      color: #fff;
+      max-width: 90%;
+      opacity: 0;
+      animation: fadeIn 6s ease forwards;
+      animation-delay: 1s;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .cake {
+      width: 150px;
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- PAGE 1 -->
+  <div id="page1">
+    <h1>🎂 Happy Birthday Meri Jaan ❤️</h1>
+    <button class="music-btn" id="musicBtn">🎶 Play Music</button>
+
+    <div class="carousel">
+      <img src="img1.jpg" class="carousel__photo active">
+      <img src="img2.jpg" class="carousel__photo">
+      <img src="img3.jpg" class="carousel__photo">
+      <img src="img4.jpg" class="carousel__photo">
+    </div>
+
+    <div class="controls">
+      <button id="prev">⬅️ Prev</button>
+      <button id="next">Next ➡️</button>
+      <button id="toPage2">Next Page 👉</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div id="page2">
+    <div class="circle-photos">
+      <img src="img1.jpg">
+      <img src="img2.jpg">
+      <img src="img3.jpg">
+      <img src="img4.jpg">
+    </div>
+    <p class="message">
+      Meri pyaari si princess 👑, tum meri duniya ki sabse khoobsurat roshni ho 🌸.<br>
+      Har din tum meri muskaan ki wajah ho 😊❤️.<br>
+      Tum meri coffee ki meethi chai ho ☕💫, aur meri zindagi ka sabse haseen gift bhi ✨.<br>
+      Aaj ke din bas ek hi dua hai – tumhe hamesha khushiyan milein aur main hamesha tumhare saath rahun 💑.<br>
+      Happy Birthday My Love ❤️🎂💐
+    </p>
+    <button class="circle-btn" id="tapBtn">Tap Me 💖</button>
+    <img src="cake.png" class="cake" id="cake">
+    <button id="backBtn">⬅️ Back to Start</button>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    // PAGE 1 CAROUSEL
+    const photos = document.querySelectorAll('.carousel__photo');
+    let index = 0;
+    function updateCarousel() {
+      photos.forEach((photo, i) => {
+        photo.classList.remove("active");
+        let offset = (i - index + photos.length) % photos.length;
+        if (offset === 0) {
+          photo.classList.add("active");
+          photo.style.transform = "translateX(0) scale(1.1)";
+        } else if (offset === 1) {
+          photo.style.transform = "translateX(160px) scale(0.9)";
+        } else if (offset === photos.length - 1) {
+          photo.style.transform = "translateX(-160px) scale(0.9)";
+        } else {
+          photo.style.transform = "translateX(0) scale(0.7)";
+        }
+      });
+    }
+    document.getElementById('next').addEventListener('click', () => {
+      index = (index + 1) % photos.length;
+      updateCarousel();
+    });
+    document.getElementById('prev').addEventListener('click', () => {
+      index = (index - 1 + photos.length) % photos.length;
+      updateCarousel();
+    });
+    setInterval(() => {
+      index = (index + 1) % photos.length;
+      updateCarousel();
+    }, 4000);
+    updateCarousel();
+
+    // PAGE TRANSITIONS
+    const page1 = document.getElementById("page1");
+    const page2 = document.getElementById("page2");
+    document.getElementById("toPage2").addEventListener("click", () => {
+      page1.style.display = "none";
+      page2.style.display = "flex";
+      startCircleAnimation();
+    });
+    document.getElementById("backBtn").addEventListener("click", () => {
+      page2.style.display = "none";
+      page1.style.display = "flex";
+    });
+
+    // PAGE 2 CIRCLE ANIMATION
+    const circleImgs = document.querySelectorAll(".circle-photos img");
+    function startCircleAnimation() {
+      let angle = 0;
+      setInterval(() => {
+        angle += 0.03;
+        circleImgs.forEach((img, i) => {
+          const theta = (i * (2 * Math.PI / circleImgs.length)) + angle;
+          const x = 120 * Math.cos(theta) + 100;
+          const y = 120 * Math.sin(theta) + 100;
+          img.style.transform = `translate(${x}px, ${y}px)`;
+        });
+      }, 50);
+    }
+
+    // TAP BUTTON -> SHOW CAKE + SPREAD IMAGES
+    const tapBtn = document.getElementById("tapBtn");
+    const cake = document.getElementById("cake");
+    tapBtn.addEventListener("click", () => {
+      cake.style.display = "block";
+      circleImgs.forEach((img, i) => {
+        const angle = i * (2 * Math.PI / circleImgs.length);
+        const x = 200 * Math.cos(angle);
+        const y = 200 * Math.sin(angle);
+        img.style.transform = `translate(${x}px, ${y}px) scale(1.2)`;
+      });
+    });
+
+    // MUSIC
+    const musicBtn = document.getElementById("musicBtn");
+    const bgMusic = document.getElementById("bgMusic");
+    let isPlaying = false;
+    musicBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicBtn.textContent = "🎶 Play Music";
+      } else {
+        bgMusic.play();
+        musicBtn.textContent = "⏸ Pause Music";
+      }
+      isPlaying = !isPlaying;
+    });
+  </script>
+</body>
+</html>
